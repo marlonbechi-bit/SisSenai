@@ -34,6 +34,7 @@
             <tr>
               <th>Nome</th>
               <th>CPF/CNPJ</th>
+              <th>Telefone</th>
             </tr>
           </thead>
           <tbody id="lista-clientes">
@@ -44,8 +45,10 @@
     <script>
       fetch('/listar-clientes')
         .then(res => res.json())
-        .then(clientes => { const corpoTabela = document.getElementByld('lista-clientes');
-                           clientes.forEach(c=> {corpoTabela.innerHTML +=`
+        .then(clientes => { 
+          const corpoTabela = document.getElementByld('lista-clientes');
+                           clientes.forEach(c=> {
+                             corpoTabela.innerHTML +=`
                              <tr>
                              <td>${c.nome}</td>
                             <td>${c.cpf}</td>
