@@ -14,7 +14,7 @@
       <a href="consulta_vendas.html">Consulta Vendas</a>
     </nav>
     <header class="banner">
-      <h1>Gestão de CLientes</h1>
+      <h1>Gestão de Clientes</h1>
       <p>Cadastre e gerencie sua base de contatos</p>
     </header>
     <div class="container">
@@ -46,7 +46,7 @@
       fetch('/listar-clientes')
         .then(res => res.json())
         .then(clientes => { 
-          const corpoTabela = document.getElementByld('lista-clientes');
+          const corpoTabela = document.getElementById('lista-clientes');
                            clientes.forEach(c=> {
                              corpoTabela.innerHTML +=`
                              <tr>
@@ -64,4 +64,5 @@
       <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
     </div>
   </footer>
+</body>
 </html>
