@@ -41,49 +41,45 @@
               <th>Subtotal</th>
             </tr>
           </thead>
-        <form action="/salvar-produto" method="POST">
-          <input type="text" name="descricao" placeholder="Descrição do Produto" required>
-          <input type="number" step="0.01" name="preco" placeholder="Preço de Venda" required>
-          <input type="number" name="estoque" placeholder="Quantidade em Estoque" required>
-          <button type="submit">Salvar no Estoque</button>
-        </form>
-      </div>
-      <div class="card" style="margin-top:20px;">
-        <h2>Produtos no Estoque</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Descrição</th>
-              <th>Preço (R$)</th>
-              <th>Estoque</th>
-            </tr>
-          </thead>
-          <tbody id="lista-produtos">
-          </tbody>
+       <tbody><</tbody>
         </table>
+        <h3 id="txtTotal">Total: R$ 0,00</h3>
+        <button onclick="finalizarVenda()" style="background: green;">Finalizar Venda</button>
       </div>
     </div>
     <script>
-      fetch('/listar-produtos')
-        .then(res => res.json())
-        .then(produtos => { 
-          const corpoTabela = document.getElementById('lista-produtos');
-                           clientes.forEach(c=> {
-                             corpoTabela.innerHTML +=`
-                             <tr>
-                             <td>${p.descricao}</td>
-                            <td>${p.preco.toFixed(2)}</td>
-                            <td>${p.estoque}</td>
-        </tr>`;
-                                                });
-                          });
+      let carrinho = [];
+      let totalGeral = 0;
+      window.listaProdutos = [];
+      window.onload = () => {
+        fetch('/listar-clientes').then(res => res.json()).then(data => {
+          const seIC = document.getElementById('seIProduto');
+          data.forEach(c=> seICinnerHTML +=`<option value="${c.id}">${c.nome}</option>`);
+        });
+        fetch('/listar-produtos').then(res=> res.json()).then(data=>{
+          window.listaProdutos = data;
+          const seIP = document.getElementById('seIProduto');
+          data.forEach(p=> seIP.innerHTML +=`<option value="${p.id}">${p.descricao} - R$
+          ${p.preco.toFixed(2)}</option>`);
+        });
+      });
+      function adicionarItem() {
+        const pld = parseInt(document.getElementById('seIProduto')).value);
+        const produto = window.listaProdutos.find(p=> p.id === pld);
+        if (produto) {
+          const subtotal = produto.preco * qtd;
+          carrinho.push({ id:produto.id, desc: produto.descricao, preco: produto.preco, qtd: qtd});
+          totalGeral += subtotal;
+          atualizarGrade();
+        }else {
+          alert("Selecione um produto!");
+        }
+      }
+      function atualizarGrade() {
+        const corpo = document.querySelector('#tabelaItens tbody');
+        corpo.innerHTML ="";
+        carrinho.forEach(item=>{
+          corpo.innerHTML +=`<tr><td>${item.desc}</td><td>${item.qtd}>/td><td>R$
+          ${item.preco.toFixed(2)}</td><td>R$ ${(item.qtd * item.preco).toFixed(2)}</td></tr>`;
+          
     </script>
-  </body>
-  <footer class="rodape">
-    <div class="container-rodape">
-      <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
-      <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-    </div>
-  </footer>
-</body>
-</html>
