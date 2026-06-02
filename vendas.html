@@ -19,7 +19,7 @@
     </header>
     <div class="container">
       <div style="margin-bottom: 20px;">
-        <button onclick="window.location.href='consulta_vendas.html'''style="background: #555; width: auto; padding: 10px 20px;">
+        <buttom onclick="window.location.href='consulta_vendas.html'''style="background: #555; width: auto; padding: 10px 20px;">
           🔍 Ver Histórico e Detalhes de Vendas
         </button>
       </div>
@@ -41,7 +41,7 @@
               <th>Subtotal</th>
             </tr>
           </thead>
-       <tbody><</tbody>
+       <tbody></tbody>
         </table>
         <h3 id="txtTotal">Total: R$ 0,00</h3>
         <button onclick="finalizarVenda()" style="background: green;">Finalizar Venda</button>
@@ -53,18 +53,18 @@
       window.listaProdutos = [];
       window.onload = () => {
         fetch('/listar-clientes').then(res => res.json()).then(data => {
-          const seIC = document.getElementById('seIProduto');
-          data.forEach(c=> seICinnerHTML +=`<option value="${c.id}">${c.nome}</option>`);
+          const selC = document.getElementByld('selProduto');
+          data.forEach(c=> selCinnerHTML +=`<option value="${c.id}">${c.nome}</option>`);
         });
         fetch('/listar-produtos').then(res=> res.json()).then(data=>{
           window.listaProdutos = data;
-          const seIP = document.getElementById('seIProduto');
+          const seIP = document.getElementByld('selProduto');
           data.forEach(p=> seIP.innerHTML +=`<option value="${p.id}">${p.descricao} - R$
           ${p.preco.toFixed(2)}</option>`);
         });
       });
       function adicionarItem() {
-        const pld = parseInt(document.getElementById('seIProduto')).value);
+        const pld = parseInt(document.getElementById('selProduto')).value);
         const produto = window.listaProdutos.find(p=> p.id === pld);
         if (produto) {
           const subtotal = produto.preco * qtd;
@@ -82,10 +82,10 @@
           corpo.innerHTML +=`<tr><td>${item.desc}</td><td>${item.qtd}>/td><td>R$
           ${item.preco.toFixed(2)}</td><td>R$ ${(item.qtd * item.preco).toFixed(2)}</td></tr>`;
         });
-        document.getElementById('txtTotal').innerText = `Total: R$ ${totalGeral.toFixed(2)};
+        document.getElementByld('txtTotal').innerText = `Total: R$ ${totalGeral.toFixed(2)};
         }
         function finalizarVenda() {
-        const cld = document.getElementById('selCliente').value;
+        const cld = document.getElementByld('selCliente').value;
         if (!cld || carrinho.length === 0) return alert("Selecione cliente e itens!");
         const dadosVenda = { cliente_id: cld, total: totalGeral, itens: carrinho};
         fetch('/finalizar-venda',{
@@ -105,6 +105,5 @@
   <footer class="rodape">
     <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
     <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
-  </div>
   </footer>
 </html>
