@@ -19,7 +19,7 @@
     </header>
     <div class="container">
       <div style="margin-bottom: 20px;">
-        <buttom onclick="window.location.href='consulta_vendas.html'''style="background: #555; width: auto; padding: 10px 20px;">
+        <button onclick="window.location.href='consulta_vendas.html'''style="background: #555; width: auto; padding: 10px 20px;">
           🔍 Ver Histórico e Detalhes de Vendas
         </button>
       </div>
@@ -54,7 +54,7 @@
       window.onload = () => {
         fetch('/listar-clientes').then(res => res.json()).then(data => {
           const selC = document.getElementByld('selProduto');
-          data.forEach(c=> selCinnerHTML +=`<option value="${c.id}">${c.nome}</option>`);
+          data.forEach(c=> selC.innerHTML +=`<option value="${c.id}">${c.nome}</option>`);
         });
         fetch('/listar-produtos').then(res=> res.json()).then(data=>{
           window.listaProdutos = data;
