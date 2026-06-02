@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>SisSenai - Consulta de Vendas</title>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="produtos.html">Produtos</a>
+      <a href="vendas.html">Vendas</a>
+      <a href="consulta_vendas.html">Consulta Vendas</a>
+    </nav>
+    <header class="banner">
+      <h1>Consulta de Vendas</h1>
+      <p>Clique em uma venda para detalhar os intens comprados</p>
+    </header>
+    <div class="container">
+      <div class="card">
+        <h2>Histórico de Vendas (Mestre)</h2>
+        <label>Produto:</label>
+        <select id="selProduto">
+          <option value="">Selecione o Produto...</option>
+        </select>
+        <label>Quantidade:</label>
+        <input type="number" id="inQtd" value="1" min="1">
+        <button onclick="adicionarItem()">Adicionar Item</button>
+        <table id="tabelaItens">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Qtd</th>
+              <th>Preço Unit.</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+       <tbody></tbody>
+        </table>
+        <h3 id="txtTotal">Total: R$ 0,00</h3>
+        <button onclick="finalizarVenda()" style="background: green;">Finalizar Venda</button>
+      </div>
+    </div>
+    <script>
+      let carrinho = [];
+      let totalGeral = 0;
+      window.listaProdutos = [];
+      window.onload = () => {
+        fetch('/listar-clientes').then(res => res.json()).then(data => {
+          const selC = document.getElementByld('selProduto');
+          data.forEach(c=> selCinnerHTML +=`<option value="${c.id}">${c.nome}</option>`);
+        });
+        fetch('/listar-produtos').then(res=> res.json()).then(data=>{
+          window.listaProdutos = data;
+          const seIP = document.getElementByld('selProduto');
+          data.forEach(p=> seIP.innerHTML +=`<option value="${p.id}">${p.descricao} - R$
+          ${p.preco.toFixed(2)}</option>`);
+        });
+      });
+      function adicionarItem() {
+        const pld = parseInt(document.getElementById('selProduto')).value);
+        const produto = window.listaProdutos.find(p=> p.id === pld);
+        if (produto) {
+          const subtotal = produto.preco * qtd;
+          carrinho.push({ id:produto.id, desc: produto.descricao, preco: produto.preco, qtd: qtd});
+          totalGeral += subtotal;
+          atualizarGrade();
+        }else {
+          alert("Selecione um produto!");
+        }
+      }
+      function atualizarGrade() {
+        const corpo = document.querySelector('#tabelaItens tbody');
+        corpo.innerHTML ="";
+        carrinho.forEach(item=>{
+          corpo.innerHTML +=`<tr><td>${item.desc}</td><td>${item.qtd}>/td><td>R$
+          ${item.preco.toFixed(2)}</td><td>R$ ${(item.qtd * item.preco).toFixed(2)}</td></tr>`;
+        });
+        document.getElementByld('txtTotal').innerText = `Total: R$ ${totalGeral.toFixed(2)};
+        }
+        function finalizarVenda() {
+        const cld = document.getElementByld('selCliente').value;
+        if (!cld || carrinho.length === 0) return alert("Selecione cliente e itens!");
+        const dadosVenda = { cliente_id: cld, total: totalGeral, itens: carrinho};
+        fetch('/finalizar-venda',{
+        method: 'POST',
+        headers: { 'Content-Type':'application/json'},
+        body: JSON.stringify(dadosVenda)
+        })
+        .then(res => res.json())
+        .then(resposta => {
+        if (resposta.sucess) {
+        alert('Venda registrada com sucesso!');
+        window.location.href = 'consulta_vendas.html';// Vai direto para a consulta após vender}
+        });
+        }
+        </script>
+  </body>
+  <footer class="rodape">
+    <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+    <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
+  </footer>
+</html>
