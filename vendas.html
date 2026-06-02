@@ -81,5 +81,32 @@
         carrinho.forEach(item=>{
           corpo.innerHTML +=`<tr><td>${item.desc}</td><td>${item.qtd}>/td><td>R$
           ${item.preco.toFixed(2)}</td><td>R$ ${(item.qtd * item.preco).toFixed(2)}</td></tr>`;
+        });
+        document.getElementById('txtTotal').innerText = `Total: R$ ${totalGeral.toFixed(2)};
+        }
+        function finalizarVenda() {
+        const cld = document.getElementById('selCliente').value;
+        if (!cld || carrinho.length === 0) return alert("Selecione cliente e itens!");
+        const dadosVenda = { cliente_id: cld, total: totalGeral, itens: carrinho};
+        fetch('/finalizar-venda',{
+        method: 'POST',
+        headers: { 'Content-Type':'application/json'},
+        body: JSON.stringify(dadosVenda)
+        })
+        .then(res => res.json())
+        .then(resposta => {
+        if (resposta.sucess) {
+        alert('Venda registrada com sucesso!');
+        window.location.href = 'consulta_vendas.html';// Vai direto para a consulta após vender}
+        });
+        }
+        </script>
+  </body>
+  <footer class="rodape">
+    <p>&copy; 2026 SisSenai - Sistema de Gestão Educacional</p>
+    <p>Desenvolvido para fins didáticos - Unidade SENAI Capanema/PR</p>
+  </div>
+  </footer>
+</html>
           
     </script>
