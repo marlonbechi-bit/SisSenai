@@ -35,6 +35,7 @@
               <th>Nome</th>
               <th>CPF/CNPJ</th>
               <th>Telefone</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody id="lista-clientes">
@@ -53,9 +54,17 @@
                              <td>${c.nome}</td>
                             <td>${c.cpf}</td>
                             <td>${c.telefone}</td>
+                            <td>
+                            <button onclick="prepararEdicao(${c.id}, '${c.nome}', '${c.cpf}', '${c.telefone}')"
+                            style="width:auto; background:orange; padding:5px 10px; margin-right:5px;"> </button>
+                            <button onclick="excluirCliente(${c.id})"
+                            style="width:auto; background:red; padding:5px 10px;"> </button>
+                            </td>
+                                                                                    
         </tr>`;
                                                 });
                           });
+      }
     </script>
   </body>
   <footer class="rodape">
