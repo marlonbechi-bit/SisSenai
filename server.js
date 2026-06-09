@@ -82,7 +82,7 @@ res.json({ sucess: true });
 app.delete('/excluir-cliente/:id', (req,res) => {
 const {id} = req.params;
 db.run(`DELETE FROM clientes WHERE id = ?`, [id], (err) => {
-iff (err) return res.status(500).json({ error: err.message });
+if (err) return res.status(500).json({ error: err.message });
 res.json({ sucess: true});
 });
 });
