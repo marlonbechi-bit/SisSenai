@@ -72,7 +72,7 @@ const {id} = req.params;
 const {nome, cpf, telefone} = req.body;
 const sql = `UPDATE clientes SET nome = ?, cpf = ?, telefone = ? WHERE id = ?`;
 
-db.run(sql, [nome, cpf, telefone, id] (err) => {
+db.run(sql, [nome, cpf, telefone, id], (err) => {
 if (err) return res.status(500).json({ error: err.message });
 res.json({ sucess: true });
 });
